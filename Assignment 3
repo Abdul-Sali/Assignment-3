@@ -1,0 +1,84 @@
+import java.util.Date;
+
+// Base class for vehicles
+class Vehicle {
+    String type;
+    String model;
+    String licensePlate;
+    double rentalRate;
+
+    public Vehicle(String type, String model, String licensePlate, double rentalRate) {
+        this.type = type;
+        this.model = model;
+        this.licensePlate = licensePlate;
+        this.rentalRate = rentalRate;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double calculateRentalCost(int days, boolean includeInsurance) {
+        double totalCost = days * rentalRate;
+        if (includeInsurance) {
+            totalCost += days * 10; // Assuming insurance costs $10 per day
+        }
+        return totalCost;
+    }
+}
+
+// Subclass for cars
+class Car extends Vehicle {
+    public Car(String model, String licensePlate, double rentalRate) {
+        super("Car", model, licensePlate, rentalRate);
+    }
+}
+
+// Subclass for bikes
+class Bike extends Vehicle {
+    public Bike(String model, String licensePlate, double rentalRate) {
+        super("Bike", model, licensePlate, rentalRate);
+    }
+}
+
+// Subclass for scooters
+class Scooter extends Vehicle {
+    public Scooter(String model, String licensePlate, double rentalRate) {
+        super("Scooter", model, licensePlate, rentalRate);
+    }
+}
+
+// Vehicle rental service
+public class VehicleRentalService {
+    public double rentVehicle(String vehicleType, String model, String licensePlate, int days) {
+        return rentVehicle(vehicleType, model, licensePlate, days, false);
+    }
+
+    public double rentVehicle(String vehicleType, String model, String licensePlate, int days, boolean includeInsurance) {
+        Vehicle vehicle;
+        double rentalCost = 0;
+
+        // Check vehicle type and create appropriate vehicle object
+        switch (vehicleType.toLowerCase()) {
+            case "car":
+                vehicle = new Car(model, licensePlate, 50); // Assuming car rental rate is $50 per day
+                break;
+            case "bike":
+                vehicle = new Bike(model, licensePlate, 20); // Assuming bike rental rate is $20 per day
+                break;
+            case "scooter":
+                vehicle = new Scooter(model, licensePlate, 30); // Assuming scooter rental rate is $30 per day
+                break;
+            default:
+                System.out.println("Invalid vehicle type.");
+                return rentalCost;
+        }
+
+        // Calculate rental cost
+        rentalCost = vehicle.calculateRentalCost(days, includeInsurance);
+
+        return rentalCost;
+    }
+
+    // Other methods for vehicle rental service can be added here
+}
